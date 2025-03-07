@@ -40,6 +40,10 @@ app.get("/users", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+app.get("/", (req, res) => {
+  res.send("¡Bienvenido a Condogminio API! 🚀");
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
