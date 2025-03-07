@@ -9,13 +9,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Inicializar Firebase con una variable de entorno
-const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG || "{}");
-
-if (!firebaseConfig.project_id) {
-  console.error("Error: No se encontró FIREBASE_CONFIG en las variables de entorno.");
-  process.exit(1);
-}
+// Construir las credenciales de Firebase desde las variables de entorno
+const firebaseConfig = {
+  type: process.env.type,
+  project_id: process.env.project_id,
+  private_key_id: process.env.private_key_id,
+  private_key: process.env.private_key.replace(/\\n/g, "\n"), // Arreglar saltos de línea
+  client_email: process.env.client_email,
+  client_id: process.env.client_id,
+  auth_uri: process.env.auth_uri,
+  token_uri: process.env.token_uri,
+  auth_provider_x509_cert_url: process.env.auth_provider_x509_cert_url,
+  client_x509_cert_url: process.env.client_x509_cert_url,
+  universe_domain: process.env.universe_domain,
+};
 
 admin.initializeApp({
   credential: admin.credential.cert(firebaseConfig),
